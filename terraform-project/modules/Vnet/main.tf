@@ -28,31 +28,9 @@ resource "azurerm_network_security_group" "VmNsg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
-    security_rule {
-    name                       = "allow-chromadb"
-    priority                   = 200
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "8000"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-      security_rule {
-    name                       = "allow-backend"
-    priority                   = 300
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "5000"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
       security_rule {
     name                       = "allow-frontend"
-    priority                   = 400
+    priority                   = 200
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "*"
