@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "WebPublicIp" {
-  name                = "acceptanceTestPublicIp1"
+  name                = var.vmPublicIp
   resource_group_name = var.resource_group_name
   location            = var.location
   allocation_method   = "Static"
@@ -8,7 +8,7 @@ resource "azurerm_public_ip" "WebPublicIp" {
 
 
 resource "azurerm_network_interface" "MyNic" {
-  name                = "my-nic"
+  name                = var.nic
   location            = var.location
   resource_group_name = var.resource_group_name
 
@@ -16,22 +16,22 @@ resource "azurerm_network_interface" "MyNic" {
     name                          = "internal"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id = azurerm_public_ip.WebPublicIp.id
+    public_ip_address_id          = azurerm_public_ip.WebPublicIp.id
   }
 }
 
 resource "azurerm_linux_virtual_machine" "MyVm" {
-  name                = "MyVm"
+  name                = var.vm
   resource_group_name = var.resource_group_name
   location            = var.location
   size                = "Standard_D2s_v3"
-  admin_username      = "adminuser"
+  admin_username      = var.adminUserName
   network_interface_ids = [
     azurerm_network_interface.MyNic.id,
   ]
 
   admin_ssh_key {
-    username   = "adminuser"
+    username   = var.adminUserName
     public_key = file("${path.module}/../../ssh-keys/terraform-azure.pub")
   }
 

@@ -1,19 +1,19 @@
 resource "azurerm_virtual_network" "MyVnet" {
-  name                = "MyVnet"
+  name                = var.VnetName
   address_space       = ["10.0.0.0/16"]
   location            = var.location
   resource_group_name = var.resource_group_name
 }
 
 resource "azurerm_subnet" "WebSubnet" {
-  name                 = "ApplicationSubnet"
+  name                 = var.subnetName
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.MyVnet.name
   address_prefixes     = ["10.0.2.0/24"]
 }
 
 resource "azurerm_network_security_group" "VmNsg" {
-  name                = "vm-nsg"
+  name                = var.nsg
   location            = var.location
   resource_group_name = var.resource_group_name
 

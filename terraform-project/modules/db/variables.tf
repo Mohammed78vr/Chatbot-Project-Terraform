@@ -8,17 +8,17 @@ variable "location" {
   type = string
 }
 
-variable "VnetName" {
-  description = "Name of the Virtual Network"
+variable "database_server_name" {
+  description = "database server name"
   type = string
 }
 
-variable "subnetName" {
-  description = "Name of the Subnet"
+variable "admin_db_username" {
+  description = "Database server username"
   type = string
 }
 
-variable "nsg" {
-  description = "Netowrk security group name"
+variable "db_passowrd" {
+  description = "database server password"
   type = string
 }
