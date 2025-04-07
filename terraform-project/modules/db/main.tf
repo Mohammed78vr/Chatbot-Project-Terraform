@@ -23,12 +23,11 @@ resource "azurerm_postgresql_flexible_server_database" "db" {
   }
 }
 
-resource "azurerm_postgresql_firewall_rule" "dbfirewall" {
-  name                = "dbfirewall"
-  resource_group_name = var.resource_group_name
-  server_name         = azurerm_postgresql_flexible_server.dbserver.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "0.0.0.0"
+resource "azurerm_postgresql_flexible_server_firewall_rule" "dbfirewall" {
+  name             = "dbfirewall"
+  server_id        = azurerm_postgresql_flexible_server.dbserver.id
+  start_ip_address = var.start_ip_address
+  end_ip_address   = var.start_ip_address
 
-  depends_on = [ azurerm_postgresql_flexible_server.dbserver ]
+  depends_on = [azurerm_postgresql_flexible_server.dbserver]
 }

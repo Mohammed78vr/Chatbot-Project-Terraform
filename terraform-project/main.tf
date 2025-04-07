@@ -41,5 +41,7 @@ module "db" {
   database_server_name = var.database_server_name
   admin_db_username    = var.admin_db_username
   db_passowrd          = var.db_passowrd
+  start_ip_address     = var.start_ip_address
+  end_ip_address       = var.end_ip_address
   depends_on           = [azurerm_resource_group.myRg]
 }

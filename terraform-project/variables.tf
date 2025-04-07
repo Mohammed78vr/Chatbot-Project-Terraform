@@ -67,3 +67,15 @@ variable "db_passowrd" {
   description = "database server password"
   type = string
 }
+
+variable "start_ip_address" {
+  description = "start IP address for azure database firewall rules"
+  type = string
+  default = "0.0.0.0"
+}
+
+variable "end_ip_address" {
+  description = "End IP address for azure database firewall"
+  type = string
+  default = "0.0.0.0"
+}
