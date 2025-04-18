@@ -14,15 +14,15 @@ echo 'export PATH="/home/azureuser/miniconda3/bin:$PATH"' | sudo -u azureuser te
 sudo -u azureuser git clone https://github.com/Mohammed78vr/Chatbot-Project-Terraform.git /home/azureuser/Chatbot-Project-Terraform
 
 sudo -u azureuser tee /home/azureuser/Chatbot-Project-Terraform/.env <<EOF
-OPENAI_API_KEY=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
-DB_NAME=chatbotdb
-DB_USER=azureadmin
-DB_PASSWORD=Weclouddata1
-DB_HOST=dataserver.postgres.database.azure.com
+OPENAI_API_KEY=<YOUR_API_KEY>
+DB_NAME=<DATABASE_NAME>
+DB_USER=<DATABASE_USERNAME>
+DB_PASSWORD=<DATABASE_PASSWORD>
+DB_HOST=<DATABASE_HOST>
 DB_PORT=5432
-AZURE_STORAGE_SAS_URL=https://stg601.blob.core.windows.net/?sv=2024-11-04&ss=b&srt=sco&sp=rwdlaciytfx&se=2025-04-08T16:49:11Z&st=2025-04-08T08:49:11Z&spr=https&sig=nb5wQMVZ9lTorxzl%2BtufJd8pG6kXeGSDUEnQkvS7Xhs%3D
-AZURE_STORAGE_CONTAINER=chat-history
-CHROMADB_HOST=10.0.2.4
+AZURE_STORAGE_SAS_URL=<STORAGE_ACCOUNT_SAS>
+AZURE_STORAGE_CONTAINER=<STOREAGE_CONTAINER_NAME>
+CHROMADB_HOST=<PRIVATE_IP>
 CHROMADB_PORT=8000
 EOF
 
