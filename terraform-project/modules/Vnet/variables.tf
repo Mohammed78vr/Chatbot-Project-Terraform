@@ -1,24 +1,29 @@
 variable "resource_group_name" {
   description = "Azure resource group name"
-  type = string
+  type        = string
 }
 
 variable "location" {
   description = "Region location"
-  type = string
+  type        = string
 }
 
-variable "VnetName" {
+variable "Vnet_Name" {
   description = "Name of the Virtual Network"
-  type = string
+  type        = string
 }
 
-variable "subnetName" {
+variable "Web_app_subnet_Name" {
   description = "Name of the Subnet"
-  type = string
+  type        = string
 }
 
-variable "nsg" {
-  description = "Netowrk security group name"
-  type = string
+variable "application_gateway_subnet_name" {
+  description = "Name of the Subnet for application subnet"
+  type        = string
+}
+
+variable "vm" {
+  description = "Virtual machine (VM) Name"
+  type        = string
 }

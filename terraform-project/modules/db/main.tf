@@ -1,3 +1,7 @@
+locals {
+  database_server_firewall_name = "${var.database_server_name}Firewall"
+}
+
 resource "azurerm_postgresql_flexible_server" "dbserver" {
   name                   = var.database_server_name
   resource_group_name    = var.resource_group_name
@@ -12,7 +16,7 @@ resource "azurerm_postgresql_flexible_server" "dbserver" {
 
 
 resource "azurerm_postgresql_flexible_server_database" "db" {
-  name      = "projectdb"
+  name      = var.database_name
   server_id = azurerm_postgresql_flexible_server.dbserver.id
   collation = "en_US.utf8"
   charset   = "UTF8"
@@ -24,7 +28,7 @@ resource "azurerm_postgresql_flexible_server_database" "db" {
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "dbfirewall" {
-  name             = "dbfirewall"
+  name             = local.database_server_firewall_name
   server_id        = azurerm_postgresql_flexible_server.dbserver.id
   start_ip_address = var.start_ip_address
   end_ip_address   = var.start_ip_address

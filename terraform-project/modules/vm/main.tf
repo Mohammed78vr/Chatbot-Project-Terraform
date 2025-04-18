@@ -1,5 +1,10 @@
+locals {
+  nic_name     = "${var.vm}-nic"
+  vm_public_ip = "${var.vm}-ip"
+}
+
 resource "azurerm_public_ip" "WebPublicIp" {
-  name                = var.vmPublicIp
+  name                = local.vm_public_ip
   resource_group_name = var.resource_group_name
   location            = var.location
   allocation_method   = "Static"
@@ -7,27 +12,27 @@ resource "azurerm_public_ip" "WebPublicIp" {
 }
 
 
-resource "azurerm_network_interface" "MyNic" {
-  name                = var.nic
+resource "azurerm_network_interface" "VmNic" {
+  name                = local.nic_name
   location            = var.location
   resource_group_name = var.resource_group_name
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = var.subnet_id
+    subnet_id                     = var.web_app_subnet_id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.WebPublicIp.id
   }
 }
 
-resource "azurerm_linux_virtual_machine" "MyVm" {
+resource "azurerm_linux_virtual_machine" "chroma_vm" {
   name                = var.vm
   resource_group_name = var.resource_group_name
   location            = var.location
   size                = "Standard_D2s_v3"
   admin_username      = var.adminUserName
   network_interface_ids = [
-    azurerm_network_interface.MyNic.id,
+    azurerm_network_interface.VmNic.id,
   ]
 
   admin_ssh_key {
