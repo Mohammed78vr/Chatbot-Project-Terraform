@@ -14,7 +14,16 @@ echo 'export PATH="/home/azureuser/miniconda3/bin:$PATH"' | sudo -u azureuser te
 sudo -u azureuser git clone https://github.com/Mohammed78vr/Chatbot-Project-Terraform.git /home/azureuser/Chatbot-Project-Terraform
 
 sudo -u azureuser tee /home/azureuser/Chatbot-Project-Terraform/.env <<EOF
-
+OPENAI_API_KEY=<YOUR_API_KEY>
+DB_NAME=<DATABASE_NAME>
+DB_USER=<DATABASE_USERNAME>
+DB_PASSWORD=<DATABASE_PASSWORD>
+DB_HOST=<DATABASE_HOST>
+DB_PORT=5432
+AZURE_STORAGE_SAS_URL=<STORAGE_ACCOUNT_SAS>
+AZURE_STORAGE_CONTAINER=<STOREAGE_CONTAINER_NAME>
+CHROMADB_HOST=<PRIVATE_IP>
+CHROMADB_PORT=8000
 EOF
 
 sudo -u azureuser /home/azureuser/miniconda3/bin/conda create -n project python=3.11 -y
