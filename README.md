@@ -41,7 +41,7 @@ A RAG (Retrieval-Augmented Generation) chatbot using **Streamlit** and **FastAPI
 ### 📈 Application Data Flow Diagram
 
 Here’s how the components interact:
-![Application Architecture](./images/application-diagram.png)
+![Application Architecture](./imgs/application-diagram.png)
 ## 🏗️ Cloud Infrastructure Architecture
 
 To deploy the app in Azure, the architecture includes:
@@ -64,7 +64,7 @@ To deploy the app in Azure, the architecture includes:
 ### 🖼️ Infrastructure Architecture Diagram
 
 Here's the overall Azure infrastructure:
-![Azure Infrastructure Diagram](./images/azure-architecture-diagram.png)
+![Azure Infrastructure Diagram](./imgs/azure-architecture-diagram.png)
 
 ## 🚀 Deployment Steps
 
