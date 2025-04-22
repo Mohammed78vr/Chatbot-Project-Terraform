@@ -23,6 +23,13 @@ resource "azurerm_subnet" "ApplicationGateWaySubnet" {
   address_prefixes     = ["10.0.3.0/24"]
 }
 
+resource "azurerm_subnet" "bastion_host_subnet" {
+  name                 = "AzureBastionSubnet"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.MyVnet.name
+  address_prefixes     = ["10.0.4.0/27"]
+}
+
 resource "azurerm_network_security_group" "VmNsg" {
   name                = local.network_security_group_name
   location            = var.location
@@ -36,17 +43,6 @@ resource "azurerm_network_security_group" "VmNsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-  security_rule {
-    name                       = "allow-frontend"
-    priority                   = 200
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "8501"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }

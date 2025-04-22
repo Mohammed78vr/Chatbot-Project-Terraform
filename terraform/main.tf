@@ -85,3 +85,13 @@ module "key_vault" {
   OpenAi_key                   = var.openai_key
   depends_on                   = [azurerm_resource_group.myRg, module.vmss]
 }
+
+module "bastion" {
+  source                      = "./modules/bastionHost"
+  resource_group_name         = var.resource_group_name
+  location                    = var.location
+  bastion_host_name           = var.bastion_host_name
+  bastion_host_public_ip_name = var.bastion_host_public_ip_name
+  bastion_host_subnet_id      = module.Vnet.bastion_host_subnet_id
+  depends_on                  = [azurerm_resource_group.myRg]
+}

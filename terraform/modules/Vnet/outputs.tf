@@ -9,3 +9,7 @@ output "Vnet_name" {
 output "application_gateway_subnet_id" {
   value = azurerm_subnet.ApplicationGateWaySubnet.id
 }
+
+output "bastion_host_subnet_id" {
+  value = azurerm_subnet.bastion_host_subnet.id
+}

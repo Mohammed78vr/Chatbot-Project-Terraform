@@ -105,3 +105,13 @@ variable "openai_key" {
   description = "OpenAI key secret"
   type        = string
 }
+#======================= varibales for bastion host modules =======================
+variable "bastion_host_name" {
+  description = "Bastion host name"
+  type        = string
+}
+
+variable "bastion_host_public_ip_name" {
+  description = "Name of the public IP address for bastion host"
+  type        = string
+}
