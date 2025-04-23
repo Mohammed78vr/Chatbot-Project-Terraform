@@ -177,23 +177,18 @@ openai_key = "<YOUR_OPENAI_KEY>" # OpenAI_Key
 5. Initialize Terraform:
 
 ```
-
 terraform init
-
 ```
 
 6. Plan Terraform:
 
 ```
-
 terraform plan
-
 ```
 
 7. Apply Terraform:
 
 ```
-
 terraform apply --auto-approve
 
 ```
@@ -204,7 +199,6 @@ terraform apply --auto-approve
 8. SSH to the Chroma VM using remote explorer with this configuration on it:
 
 ```
-
 Host chromaVm # Name of the host, whatever name you like
 
 HostName <PUBLIC_IP_ADDRESS_OF_THE_VM>
@@ -212,7 +206,6 @@ HostName <PUBLIC_IP_ADDRESS_OF_THE_VM>
 IdentityFile <PATH_TO_THE_PRIVATE_KEY>
 
 User azureuser # the default is azureuser but change accordingly
-
 ```
 9. After connecting to the VM, create a file name `setup.sh` and paste this script
  
