@@ -35,13 +35,13 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     # Execute the Update Script on the VM
-    - name: Deploy to Azure VM
+    - name: Deploy to Azure VMSS
       run: |
-        az vm extension set \
+        azss vm extension set \
           --resource-group ${{ secrets.RESOURCE_GROUP }} \
-          --vm-name ${{ secrets.VM_NAME }} \
+          --vmss-name ${{ secrets.VMSS_NAME }} \
           --name CustomScript \
           --force-update \
           --publisher Microsoft.Azure.Extensions \
           --settings '{"fileUris": []}' \
-          --protected-settings '{"commandToExecute": "export GITHUB_TOKEN=${{ secrets.TOKEN }} && sudo -u adminuser bash /home/adminuser/Chatbot-Project-Terraform/update_app.sh"}'
+          --protected-settings '{"commandToExecute": "export GITHUB_TOKEN=${{ secrets.TOKEN }} && sudo -u azureuser bash /home/azureuser/Chatbot-Project-Terraform/update_app.sh"}'

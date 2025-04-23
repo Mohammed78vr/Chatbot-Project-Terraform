@@ -7,7 +7,7 @@ USER=$(whoami)
 HOME_DIR=$(eval echo ~$USER)
 APP_DIR="$HOME_DIR/Chatbot-Project-Terraform"
 REPO_URL="https://github.com/Mohammed78vr/Chatbot-Project-Terraform.git"
-BRANCH="stage-6.1-tf"
+BRANCH="stage-6.5-tf"
 GITHUB_TOKEN=$TOKEN  # Passed securely via protectedSettings
 
 # Update code
