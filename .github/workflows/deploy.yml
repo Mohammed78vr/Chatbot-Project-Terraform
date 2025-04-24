@@ -37,7 +37,7 @@ jobs:
     # Execute the Update Script on the VM
     - name: Deploy to Azure VMSS
       run: |
-        azss vm extension set \
+        az vmss extension set \
           --resource-group ${{ secrets.RESOURCE_GROUP }} \
           --vmss-name ${{ secrets.VMSS_NAME }} \
           --name CustomScript \
