@@ -3,7 +3,7 @@ name: Python App CI/CD Pipeline with Direct Deployment
 on:
   push:
     branches:
-      - main
+      - stage-6.5-tf
 
 jobs:
   build-and-deploy:
