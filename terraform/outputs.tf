@@ -17,3 +17,7 @@ output "database_username" {
 output "database_name" {
   value = module.db.database_name
 }
+
+output "key_vault_name" {
+  value = module.key_vault.key_vault_name
+}
