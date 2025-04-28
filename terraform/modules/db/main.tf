@@ -32,6 +32,5 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "dbfirewall" {
   server_id        = azurerm_postgresql_flexible_server.dbserver.id
   start_ip_address = var.start_ip_address
   end_ip_address   = var.end_ip_address
-
   depends_on = [azurerm_postgresql_flexible_server.dbserver]
 }

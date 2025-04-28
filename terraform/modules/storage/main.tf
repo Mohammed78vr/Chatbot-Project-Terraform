@@ -38,19 +38,19 @@ data "azurerm_storage_account_sas" "storage_SAS" {
     file  = false
   }
 
-  start  = "2025-04-21T00:00:00Z"
+  start  = "2025-04-28T00:00:00Z"
   expiry = "2025-06-21T00:00:00Z"
 
   permissions {
     read    = true
     write   = true
-    delete  = false
-    list    = false
+    delete  = true
+    list    = true
     add     = true
     create  = true
     update  = false
     process = false
-    tag     = false
-    filter  = false
+    tag     = true
+    filter  = true
   }
 }

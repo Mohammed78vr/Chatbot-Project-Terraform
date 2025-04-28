@@ -32,6 +32,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   custom_data         = base64encode(file("${path.module}/../../scripts/init_script_vmss.sh"))
   secure_boot_enabled = true
 
+  upgrade_mode = "Automatic"
+
   identity {
     type = "SystemAssigned"
   }

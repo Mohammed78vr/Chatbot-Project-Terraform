@@ -16,7 +16,7 @@ database_name        = "chatbotdb"
 admin_db_username    = "azureadmin"
 db_passowrd          = "Weclouddata1"
 start_ip_address     = "0.0.0.0"
-end_ip_address       = "255.255.255.255"
+end_ip_address       = "0.0.0.0"
 #======================= varibales for VMSS modules =======================
 vmss_name       = "AppVMSS"
 source_image_id = "<YOUR_IMAGE_ID>" # use your image for the VMSS
