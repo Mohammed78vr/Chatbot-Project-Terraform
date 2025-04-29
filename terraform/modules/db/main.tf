@@ -11,7 +11,11 @@ resource "azurerm_postgresql_flexible_server" "dbserver" {
   administrator_password = var.db_passowrd
   storage_mb             = 32768
   sku_name               = "GP_Standard_D4s_v3"
-
+  zone = 1
+  high_availability {
+    mode = "ZoneRedundant"
+    standby_availability_zone = "2"
+  }
 }
 
 
@@ -32,5 +36,5 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "dbfirewall" {
   server_id        = azurerm_postgresql_flexible_server.dbserver.id
   start_ip_address = var.start_ip_address
   end_ip_address   = var.end_ip_address
-  depends_on = [azurerm_postgresql_flexible_server.dbserver]
+  depends_on       = [azurerm_postgresql_flexible_server.dbserver]
 }

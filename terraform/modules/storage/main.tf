@@ -38,8 +38,8 @@ data "azurerm_storage_account_sas" "storage_SAS" {
     file  = false
   }
 
-  start  = "2025-04-28T00:00:00Z"
-  expiry = "2025-06-21T00:00:00Z"
+  start  = timestamp()                  # Current timestamp
+  expiry = timeadd(timestamp(), "240h") # Add 240 hours (10 days)
 
   permissions {
     read    = true
