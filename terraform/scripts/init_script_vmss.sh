@@ -14,7 +14,7 @@ echo 'export PATH="/home/azureuser/miniconda3/bin:$PATH"' | sudo -u azureuser te
 sudo -u azureuser git clone -b stage-6.5-tf https://github.com/Mohammed78vr/Chatbot-Project-Terraform.git /home/azureuser/Chatbot-Project-Terraform
 
 sudo -u azureuser tee /home/azureuser/Chatbot-Project-Terraform/.env <<EOF
-KEY_VAULT_NAME=<YOUR_KEY_VAULT_NAME>
+KEY_VAULT_NAME=key-vault-sda984
 EOF
 
 sudo -u azureuser /home/azureuser/miniconda3/bin/conda create -n project python=3.11 -y

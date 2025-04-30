@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "myRg" {
 
 module "Vnet" {
   source                          = "./modules/Vnet"
-  resource_group_name             = var.resource_group_name
+  resource_group_name             = azurerm_resource_group.myRg.name
   location                        = var.location
   Vnet_Name                       = var.Vnet_Name
   Web_app_subnet_Name             = var.Web_app_subnet_Name
@@ -16,7 +16,7 @@ module "Vnet" {
 
 module "Vm" {
   source              = "./modules/vm"
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.myRg.name
   location            = var.location
   web_app_subnet_id   = module.Vnet.web_app_subnet_id
   vm                  = var.vm
@@ -26,16 +26,18 @@ module "Vm" {
 }
 
 module "storage" {
-  source              = "./modules/storage"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  container           = var.container
-  depends_on          = [azurerm_resource_group.myRg]
+  source                     = "./modules/storage"
+  resource_group_name        = azurerm_resource_group.myRg.name
+  location                   = var.location
+  container                  = var.container
+  storage_account_sas_start  = var.storage_account_sas_start
+  storage_account_sas_expiry = var.storage_account_sas_expiry
+  depends_on                 = [azurerm_resource_group.myRg]
 }
 
 module "db" {
   source               = "./modules/db"
-  resource_group_name  = var.resource_group_name
+  resource_group_name  = azurerm_resource_group.myRg.name
   location             = var.location
   database_server_name = var.database_server_name
   admin_db_username    = var.admin_db_username
@@ -48,7 +50,7 @@ module "db" {
 
 module "vmss" {
   source              = "./modules/vmss"
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.myRg.name
   location            = var.location
   vmss_name           = var.vmss_name
   source_image_id     = var.source_image_id
@@ -60,7 +62,7 @@ module "vmss" {
 
 module "application_gateway" {
   source                             = "./modules/applicationGateway"
-  resource_group_name                = var.resource_group_name
+  resource_group_name                = azurerm_resource_group.myRg.name
   location                           = var.location
   appliaction_gateway_public_ip_name = var.appliaction_gateway_public_ip_name
   application_gateway_name           = var.application_gateway_name
@@ -71,7 +73,7 @@ module "application_gateway" {
 
 module "key_vault" {
   source                       = "./modules/keyVaults"
-  resource_group_name          = var.resource_group_name
+  resource_group_name          = azurerm_resource_group.myRg.name
   location                     = var.location
   key_vault_name               = var.key_vault_name
   manged_identity_id           = module.vmss.vmss_managed_identity
@@ -88,7 +90,7 @@ module "key_vault" {
 
 module "bastion" {
   source                      = "./modules/bastionHost"
-  resource_group_name         = var.resource_group_name
+  resource_group_name         = azurerm_resource_group.myRg.name
   location                    = var.location
   bastion_host_name           = var.bastion_host_name
   bastion_host_public_ip_name = var.bastion_host_public_ip_name

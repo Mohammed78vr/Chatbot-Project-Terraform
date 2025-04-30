@@ -9,7 +9,9 @@ application_gateway_subnet_name = "applicationGatewaySubnet"
 vm            = "chromavm"
 adminUserName = "azureuser"
 #======================= varibales for storage modules =======================
-container = "chat-history"
+container                  = "chat-history"
+storage_account_sas_start  = timestamp()                  # Current times
+storage_account_sas_expiry = timeadd(timestamp(), "240h") # Add 240 hours (10 days)
 #======================= varibales for db modules =======================
 database_server_name = "postgresqldbdd"
 database_name        = "chatbotdb"
@@ -24,7 +26,7 @@ source_image_id = "<YOUR_IMAGE_ID>" # use your image for the VMSS
 appliaction_gateway_public_ip_name = "appGateway-ip"
 application_gateway_name           = "appgateway"
 #======================= varibales for Key vaults modules =======================
-key_vault_name = "keyvaultsda984"
+key_vault_name = "key-vault-sda984"
 openai_key     = "<YOUR_OPENAI_KEY>"
 #======================= varibales for bastion host modules =======================
 bastion_host_name           = "bastionHost"
