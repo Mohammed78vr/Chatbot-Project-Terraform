@@ -171,32 +171,140 @@ source_image_id = "<YOUR_IMAGE_ID>" # use your image for the VMSS
 
 openai_key = "<YOUR_OPENAI_KEY>" # OpenAI_Key
 ```
-
 > ⚡ Note: You can edit any variables name with name you likes.
+5. Creating image:
+First, create a VM and ssh to it. Then, create a file name `setup.sh` and copy and paste the script below. After that, run the scripts.
+The scripts take 3 arguments:
 
-5. Initialize Terraform:
+	1.  **PAT_token**: Your GitHub personal access token.
+	2.  **repo_url**: The URL of your GitHub repository  **(without `https://`)**.
+	3.  **branch_name**: The branch name to use on the VM.
+```bash
+#!/bin/bash
+
+# Check if the correct number of arguments is provided
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 <PAT_token> <repo_url> <branch_name>"
+    exit 1
+fi
+
+# Assign arguments to variables
+PAT_TOKEN="$1"
+REPO_URL="$2"
+BRANCH_NAME="$3"
+REPO_NAME=$(basename "$REPO_URL" .git)
+USER=$(whoami)
+HOME_DIR=$(eval echo ~$USER)
+
+# Set up Conda environment
+echo "Setting up conda environment..."
+source "$HOME_DIR/miniconda3/etc/profile.d/conda.sh"
+if ! conda env list | grep -q "^project "; then
+    conda create -y -n project python=3.11
+fi
+
+# Clone the repository
+echo "Cloning repository..."
+cd "$HOME_DIR"
+if [ -d "$REPO_NAME" ]; then
+    echo "Directory $REPO_NAME already exists. Please remove it or choose a different repository."
+    exit 1
+fi
+export GITHUB_TOKEN="$PAT_TOKEN"
+git clone -b "$BRANCH_NAME" "https://${GITHUB_TOKEN}@${REPO_URL}"
+if [ $? -ne 0 ]; then
+    echo "Failed to clone repository"
+    exit 1
+fi
+cd "$REPO_NAME"
+
+# Install requirements
+echo "Installing requirements..."
+if [ -f requirements.txt ]; then
+    "$HOME_DIR/miniconda3/envs/project/bin/pip" install -r requirements.txt
+else
+    echo "No requirements.txt found"
+fi
+
+# Step 5: Create .env file in the repository directory
+echo "Creating .env file..."
+cat <<EOF | sudo tee $HOME_DIR/$REPO_NAME/.env
+KEY_VAULT_NAME=<YOUR_KEY_VAULT_NAME>
+EOF
+
+# Create systemd services
+echo "Creating systemd services..."
+
+cat <<EOF | sudo tee /etc/systemd/system/backend.service
+[Unit]
+Description=backend
+After=network.target
+
+[Service]
+Type=simple
+User=$USER
+WorkingDirectory=$HOME_DIR/$REPO_NAME
+ExecStart=$HOME_DIR/miniconda3/envs/project/bin/uvicorn backend:app --reload --port 5000
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+cat <<EOF | sudo tee /etc/systemd/system/frontend.service
+[Unit]
+Description=Streamlit
+After=network.target
+
+[Service]
+Type=simple
+User=$USER
+WorkingDirectory=$HOME_DIR/$REPO_NAME
+ExecStart=$HOME_DIR/miniconda3/envs/project/bin/streamlit run chatbot.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Reload systemd and start services
+echo "Reloading systemd and starting services..."
+sudo systemctl daemon-reload
+for service in backend frontend; do
+    sudo systemctl enable $service
+    sudo systemctl start $service
+done
+
+echo "Setup completed successfully"
+```
+	After the script is done, run this command:
+	```
+	sudo waagent -deprovision+user
+	```
+Then, Stop the VM and capture the image to create an image.
+
+6. Initialize Terraform:
 
 ```
 terraform init
 ```
 
-6. Plan Terraform:
+7. Plan Terraform:
 
 ```
 terraform plan
 ```
 
-7. Apply Terraform:
+8. Apply Terraform:
 
 ```
 terraform apply --auto-approve
-
 ```
 
 > ⚡ Note: --auto-approve is optional.
 
 
-8. SSH to the Chroma VM using remote explorer with this configuration on it:
+9. SSH to the Chroma VM using remote explorer with this configuration on it:
 
 ```
 Host chromaVm # Name of the host, whatever name you like
@@ -207,7 +315,7 @@ IdentityFile <PATH_TO_THE_PRIVATE_KEY>
 
 User azureuser # the default is azureuser but change accordingly
 ```
-9. After connecting to the VM, create a file name `setup.sh` and paste this script
+10. After connecting to the VM, create a file name `setup.sh` and paste this script
  
 	This script needs you to provide 7 arguments to the bash script:  
 
@@ -222,7 +330,7 @@ User azureuser # the default is azureuser but change accordingly
 To run the setup script:  
 `bash setup.sh <PAT_token> <repo_url> <branch_name> <db_host> <target_db> <db_username> <db_password>` 
  
-```bash 
+ ```bash 
 #!/bin/bash
 
 # Check if the correct number of arguments is provided
@@ -318,8 +426,46 @@ sudo systemctl start chromadb
 echo "Setup completed successfully" 
   ``` 
 
-10. Check if the chromadb service is running in host `0.0.0.0:8000` :
+11. Check if the chromadb service is running in host `0.0.0.0:8000` :
 
 ```bash
 sudo systemctl status chromadb.service
 ```
+
+12. Connect to the instances in the VMSS using bastions:
+
+	
+
+ - From the portal click on the VMSS and then select instances.
+
+
+
+ - Select the first instances and then click on connect via bastion.
+
+	
+
+ - From drop down list select using private key
+
+	
+
+ - provide the username and password
+
+	
+
+ - click connect
+
+13. Verify if the frontend and backend services are running:
+```bash
+sudo systemctl status backend.service
+```
+```bash
+sudo systemctl status frontend.service
+```
+If they are not working restart the backend service using:
+```bash
+sudo systemctl restart backend.service
+```
+```bash
+sudo systemctl restart frontend.service
+```
+15. Use the public IP address of the application gateway to use the application
