@@ -26,13 +26,11 @@ module "Vm" {
 }
 
 module "storage" {
-  source                     = "./modules/storage"
-  resource_group_name        = azurerm_resource_group.myRg.name
-  location                   = var.location
-  container                  = var.container
-  storage_account_sas_start  = var.storage_account_sas_start
-  storage_account_sas_expiry = var.storage_account_sas_expiry
-  depends_on                 = [azurerm_resource_group.myRg]
+  source              = "./modules/storage"
+  resource_group_name = azurerm_resource_group.myRg.name
+  location            = var.location
+  container           = var.container
+  depends_on          = [azurerm_resource_group.myRg]
 }
 
 module "db" {

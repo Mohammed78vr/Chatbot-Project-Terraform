@@ -10,8 +10,6 @@ vm            = "chromavm"
 adminUserName = "azureuser"
 #======================= varibales for storage modules =======================
 container                  = "chat-history"
-storage_account_sas_start  = timestamp()                  # Current times
-storage_account_sas_expiry = timeadd(timestamp(), "240h") # Add 240 hours (10 days)
 #======================= varibales for db modules =======================
 database_server_name = "postgresqldbdd"
 database_name        = "chatbotdb"
